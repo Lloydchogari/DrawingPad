@@ -5,7 +5,7 @@ body {
 }
 
 body.light {
-  background-color: #f0f0f0 ;
+  background-color: #f0f0f0;
   background-size: cover;
   color: #111;
 }
@@ -18,6 +18,16 @@ body.dark {
 .app {
   display: flex;
   height: 100vh;
+  min-height: 100svh;
+}
+
+/* Responsive TO FLEX-COLUMN for Small Screens */
+@media (max-width: 900px) {
+  .app {
+    flex-direction: column;
+    min-height: 100svh;
+    height: auto;
+  }
 }
 
 canvas {
@@ -26,6 +36,9 @@ canvas {
   cursor: crosshair;
   background: white;
   transition: background 0.3s ease;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
 }
 
 body.dark canvas {
@@ -34,19 +47,52 @@ body.dark canvas {
 
 .toolbar {
   width: 260px;
+  min-width: 220px;
+  max-width: 350px;
   padding: 10px;
-  padding-right: 95px;
+  padding-right: 36px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .toolbar {
+    flex-direction: row;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    padding: 10px 5px 10px 5px;
+    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 6px;
+    padding: 5px 2px;
+  }
 }
 
 h1 {
   margin-bottom: 8px;
   font-weight: 700;
+  font-size: 1.45rem;
 }
 
-/* 🎨 Sleek Button Styles */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1rem;
+    margin: 0 0 4px 0;
+  }
+}
+
+/* Sleek Button Styles */
 button,
 input[type="color"],
 input[type="range"],
@@ -64,11 +110,20 @@ input[type="file"] {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6px);
   color: #333;
+  box-sizing: border-box;
 }
 
-/*I want the colorPicker to have the same color as the selected color*/
-
-
+@media (max-width: 600px) {
+  button,
+  input[type="color"],
+  input[type="range"],
+  input[type="file"] {
+    width: 98%;
+    padding: 7px 8px;
+    font-size: 0.98rem;
+    margin-top: 7px;
+  }
+}
 
 #colorPicker {
   width: 30px;
@@ -83,21 +138,25 @@ input[type="file"] {
   overflow: hidden;
 }
 
-
-
-
-
 .colorMode {
   position: relative;
   display: flex;
   align-items: center;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1); /* glass effect */
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 100%; 
+  width: 100%;
   padding-top: 1px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .colorMode {
+    padding: 9px 6px 9px 6px;
+    font-size: 0.98rem;
+  }
 }
 
 .colorMode label {
@@ -115,17 +174,20 @@ input[type="file"] {
   transition: transform 0.2s ease;
 }
 
+@media (max-width: 600px) {
+  .dark-mode-icon {
+    width: 26px;
+    height: 26px;
+    top: 5px;
+    right: 5px;
+  }
+}
+
 .dark-mode-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
-
-
-
-
-
 
 body.dark button,
 body.dark input[type="color"],
@@ -157,7 +219,6 @@ body.dark button.active {
   box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
 }
 
-
 label {
   display: flex;
   flex-direction: column;
@@ -170,6 +231,14 @@ label {
   gap: 10px;
   margin-top: auto;
   font-weight: 600;
+}
+
+/* Remove outline for buttons and inputs for custom focus */
+button:focus,
+input:focus,
+input[type="range"]:focus,
+input[type="file"]:focus {
+  outline: 2px solid #4a90e2;
 }
 
 .dark-mode-icon {
@@ -186,21 +255,17 @@ label {
   transition: transform 0.2s ease, filter 0.3s ease;
 }
 
-
 /* Hover effect */
 .dark-mode-icon:hover img {
-  transform: scale(1.1); /* Slight zoom effect */
-  filter: brightness(1.8); /* Lighten the icon */
+  transform: scale(1.1);
+  filter: brightness(1.8);
 }
-
 
 /* Glassmorphism */
 .glass {
-   background-color: rgba(82, 175, 73, 0.1);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-
-  
+  background-color: rgba(82, 175, 73, 0.1);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
 body.dark .glass {
@@ -211,13 +276,19 @@ body.dark .glass {
 .tools-group {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 
 .tools-group button {
   flex: 1;
 }
 
-/* Optional: drawingBoard style */
+@media (max-width: 600px) {
+  .tools-group {
+    gap: 3px;
+  }
+}
+
 .drawingBoard {
   background-color: red;
 }

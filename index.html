@@ -54,5 +54,51 @@
   </div>
 
   <script src="script.js"></script>
+
+  <script>
+    // Touch support additions for drawing on mobile:
+
+    const canvas = document.getElementById("drawingCanvas");
+
+    function getTouchPos(touchEvent) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: touchEvent.touches[0].clientX - rect.left,
+        y: touchEvent.touches[0].clientY - rect.top
+      };
+    }
+
+    function startDrawingTouch(e) {
+      if (window.replaying) return;
+      e.preventDefault();
+      window.painting = true;
+      const pos = getTouchPos(e);
+      window.ctx.beginPath();
+      window.ctx.moveTo(pos.x, pos.y);
+      drawTouch(e);
+    }
+
+    function drawTouch(e) {
+      if (!window.painting) return;
+      e.preventDefault();
+      const pos = getTouchPos(e);
+      // Reuse existing draw() by faking offsetX/Y properties
+      draw({ offsetX: pos.x, offsetY: pos.y });
+    }
+
+    function stopDrawingTouch(e) {
+      if (window.replaying) return;
+      e.preventDefault();
+      window.painting = false;
+      window.ctx.closePath();
+      saveHistory();
+    }
+
+    canvas.addEventListener("touchstart", startDrawingTouch, { passive: false });
+    canvas.addEventListener("touchmove", drawTouch, { passive: false });
+    canvas.addEventListener("touchend", stopDrawingTouch, { passive: false });
+    canvas.addEventListener("touchcancel", stopDrawingTouch, { passive: false });
+  </script>
+
 </body>
 </html>
